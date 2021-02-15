@@ -1,7 +1,7 @@
 {
   "name": "react-hub-components",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
   "main": "build/index.js",
   "repository": {
     "url": "https://github.com/DMills-hub/react-hub-components.git"

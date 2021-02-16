@@ -1,3 +1,8 @@
+//#packageimports
+import { HSLColor } from 'react-color'
+import { MenuItemProps, SemanticCOLORS, SemanticICONS } from 'semantic-ui-react'
+////#endpackageimports
+
 //#importcomponents
 import C_AutoForm from './components/AutoForm'
 import C_ButtonGroup from './components/ButtonGroup'
@@ -25,3 +30,31 @@ export const PaginationBar = C_PaginationBar
 export const PositionedContainer = C_PositionedContainer
 export const Swatch = C_Swatch
 ////#endexportcomponents
+
+//#exportinterfaces
+export interface ButtonGroupButton {
+  icon: SemanticICONS
+  onClick: () => void
+  color?: SemanticCOLORS
+}
+
+export type FieldDefinitionType = 'number' | 'text' | 'swatch' | 'file'
+
+export interface FieldDefinition {
+  label: string
+  key: string
+  type: FieldDefinitionType
+}
+
+export interface DragDropDefinition {
+  _id: string
+  name: string
+  swatchColour?: HSLColor
+}
+
+export interface MenuBarItem extends MenuItemProps {
+  path: string
+  name: string
+}
+
+////#endexportinterfaces

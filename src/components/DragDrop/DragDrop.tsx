@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components'
 import Drag from './components/Draggable'
 import { Header } from 'semantic-ui-react'
-import { DragDropDefinition } from '../../definitions'
+import { DragDropDefinition } from '../../'
 import DragDropActions from './components/DragDropActions'
 
 export interface DragDropProps {

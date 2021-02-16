@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { FieldDefinition } from '../../definitions'
+import { FieldDefinition } from '../../'
 import styled from 'styled-components'
 import { Form } from 'semantic-ui-react'
 import { useForm } from 'react-hook-form'

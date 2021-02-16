@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Menu, MenuItemProps } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 import { useHistory, useLocation } from 'react-router'
+import { MenuBarItem } from '../../'
 
 const MenuBarContainer = styled.div<{ width: number; backgroundColor: string }>`
   width: ${(props) => props.width}px;
@@ -12,11 +13,6 @@ const MenuBarContainer = styled.div<{ width: number; backgroundColor: string }>`
 const StyledMenu = styled(Menu)`
   height: 100%;
 `
-
-interface MenuBarItem extends MenuItemProps {
-  path: string
-  name: string
-}
 
 export interface MenuBarProps {
   width: number

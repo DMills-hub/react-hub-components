@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, ButtonGroup } from 'semantic-ui-react'
-import { ButtonGroupButton } from '../../definitions'
+import { ButtonGroupButton } from '../../'
 import styled from 'styled-components'
 
 export interface ButtonGroupProps {

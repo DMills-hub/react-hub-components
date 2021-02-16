@@ -4,8 +4,11 @@ import { Menu } from 'semantic-ui-react'
 import { useHistory, useLocation } from 'react-router'
 import { MenuBarItem } from '../../'
 
-const MenuBarContainer = styled.div<{ width: number; backgroundColor: string }>`
-  width: ${(props) => props.width}px;
+const MenuBarContainer = styled.div<{
+  width?: number
+  backgroundColor: string
+}>`
+  width: ${(props) => (props.width ? `${props.width}px` : '100%')};
   height: 100%;
   background-color: ${(props) => props.backgroundColor};
 `
@@ -15,7 +18,7 @@ const StyledMenu = styled(Menu)`
 `
 
 export interface MenuBarProps {
-  width: number
+  width?: number
   backgroundColor: string
   items: MenuBarItem[]
 }

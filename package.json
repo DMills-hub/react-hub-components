@@ -8,7 +8,7 @@
     "url": "https://github.com/DMills-hub/react-hub-components.git"
   },
   "files": [
-    "dist"
+    "build"
   ],
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",

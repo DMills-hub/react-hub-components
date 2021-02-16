@@ -50,7 +50,7 @@ const MenuBar = ({ width, backgroundColor, items }: MenuBarProps) => {
       <StyledMenu fluid vertical tabular>
         {items.map((item) => (
           <Menu.Item
-            active={activeItem === item.name}
+            active={activeItem === item.path}
             onClick={() => {
               onChangeRoute(item.path)
             }}

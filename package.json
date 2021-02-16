@@ -1,6 +1,6 @@
 {
   "name": "react-hub-generic-components",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": false,
   "main": "build/index.js",
   "types": "build/index.d.ts",

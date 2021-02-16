@@ -13,35 +13,34 @@ const StyledMenu = styled(Menu)`
   height: 100%;
 `
 
-export interface MenuBarProps<T> {
-  width: number
-  backgroundColor: string
-  activeItemType: T
-  items: MenuItemProps[]
+interface MenuBarItem extends MenuItemProps {
+  path: string
+  name: string
 }
 
-const MenuBar = <T extends any>({
-  width,
-  backgroundColor,
-  activeItemType,
-  items,
-}: MenuBarProps<T>) => {
+export interface MenuBarProps {
+  width: number
+  backgroundColor: string
+  items: MenuBarItem[]
+}
+
+const MenuBar = ({ width, backgroundColor, items }: MenuBarProps) => {
   const history = useHistory()
   const location = useLocation()
-  const [activeItem, setActiveItem] = useState<typeof activeItemType>()
+  const [activeItem, setActiveItem] = useState<string>()
 
   useEffect(() => {
     if (!activeItem) {
       const pathName = location.pathname.split('/')[1]
-      const path = `/${pathName}` as T
+      const path = `/${pathName}`
       setActiveItem(path)
     }
   }, [activeItem, setActiveItem])
 
   const onChangeRoute = useCallback(
-    (name: typeof activeItemType) => {
-      setActiveItem(name)
-      history.push(name as string)
+    (path: string) => {
+      setActiveItem(path)
+      history.push(path)
     },
     [setActiveItem]
   )
@@ -51,9 +50,9 @@ const MenuBar = <T extends any>({
       <StyledMenu fluid vertical tabular>
         {items.map((item) => (
           <Menu.Item
+            active={activeItem === item.name}
             onClick={() => {
-              setActiveItem(item.name as typeof activeItemType)
-              onChangeRoute(item.name as typeof activeItemType)
+              onChangeRoute(item.path)
             }}
             {...item}
           />

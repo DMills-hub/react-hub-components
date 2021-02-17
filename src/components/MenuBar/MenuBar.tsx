@@ -3,14 +3,18 @@ import styled from 'styled-components'
 import { Menu } from 'semantic-ui-react'
 import { useHistory, useLocation } from 'react-router'
 import { MenuBarItem } from '../../'
+import { useMediaQuery } from 'react-responsive'
 
 const MenuBarContainer = styled.div<{
   width?: number
   backgroundColor: string
+  isTabletOrMobile: boolean
 }>`
-  width: ${(props) => (props.width ? `${props.width}px` : '100%')};
+  width: ${(props) =>
+    props.width && !props.isTabletOrMobile ? `${props.width}px` : '100%'};
   height: 100%;
   background-color: ${(props) => props.backgroundColor};
+  ${(props) => (props.isTabletOrMobile ? 'display: flex;' : '')}
 `
 
 const StyledMenu = styled(Menu)`
@@ -27,6 +31,7 @@ const MenuBar = ({ width, backgroundColor, items }: MenuBarProps) => {
   const history = useHistory()
   const location = useLocation()
   const [activeItem, setActiveItem] = useState<string>()
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
   useEffect(() => {
     if (!activeItem) {
@@ -45,8 +50,12 @@ const MenuBar = ({ width, backgroundColor, items }: MenuBarProps) => {
   )
 
   return (
-    <MenuBarContainer width={width} backgroundColor={backgroundColor}>
-      <StyledMenu fluid vertical tabular>
+    <MenuBarContainer
+      isTabletOrMobile={isTabletOrMobile}
+      width={width}
+      backgroundColor={backgroundColor}
+    >
+      <StyledMenu fluid vertical={isTabletOrMobile ? false : true} tabular>
         {items.map((item) => (
           <Menu.Item
             active={activeItem === item.path}

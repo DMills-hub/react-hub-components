@@ -29,6 +29,7 @@
     "react-scripts": "4.0.2",
     "react-slick": "^0.28.0",
     "rollup": "^2.39.0",
+    "rollup-plugin-import-css": "^2.0.0",
     "semantic-ui-react": "^2.0.3",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.1",

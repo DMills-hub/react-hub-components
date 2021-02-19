@@ -1,19 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { Menu } from 'semantic-ui-react'
-import { useHistory, useLocation } from 'react-router'
+import { Menu, Image } from 'semantic-ui-react'
 import { MenuBarItem } from '../../'
-import { useMediaQuery } from 'react-responsive'
+import useMediaQueries from '../../hooks/useMediaQueries'
+import MenuItem from './components/MenuItem'
+import MobileSideBar from './components/MobileSideBar'
+import { Styles } from 'react-burger-menu'
 
 const MenuBarContainer = styled.div<{
   width?: number
-  backgroundColor: string
   isTabletOrMobile: boolean
 }>`
-  width: ${(props) =>
-    props.width && !props.isTabletOrMobile ? `${props.width}px` : '100%'};
+  width: 100%;
   height: 100%;
-  background-color: ${(props) => props.backgroundColor};
   ${(props) => (props.isTabletOrMobile ? 'display: flex;' : '')}
 `
 
@@ -21,52 +20,92 @@ const StyledMenu = styled(Menu)`
   height: 100%;
 `
 
+const StyledImage = styled(Image)`
+  cursor: pointer;
+`
+
+const LogoContainer = styled.div<{
+  isTabletOrPhone: boolean
+}>`
+  height: ${(props) => (props.isTabletOrPhone ? '100%' : '200px')};
+  width: ${(props) => (props.isTabletOrPhone ? '300px' : '100%')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const Container = styled.div<{
+  isTabletOrPhone: boolean
+  width: number
+  backgroundColour: string
+}>`
+  height: ${(props) => (props.isTabletOrPhone ? '70px' : '100%')};
+  width: ${(props) => (props.isTabletOrPhone ? '100%' : `${props.width}px`)};
+  ${(props) => (props.isTabletOrPhone ? 'display: flex;' : '')}
+  background-color: ${(props) => props.backgroundColour};
+`
+
 export interface MenuBarProps {
-  width?: number
+  width: number
   backgroundColor: string
   items: MenuBarItem[]
+  logoUrl?: string
+  onClickLogo?: () => void
+  onClickMenuItem: (path: string) => void
+  isMobileNavOpen: boolean
+  onChangeMobileNav: (isOpen: boolean) => void
+  mobileNavStyles: Partial<Styles>
 }
 
-const MenuBar = ({ width, backgroundColor, items }: MenuBarProps) => {
-  const history = useHistory()
-  const location = useLocation()
-  const [activeItem, setActiveItem] = useState<string>()
-  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-
-  useEffect(() => {
-    if (!activeItem) {
-      const pathName = location.pathname.split('/')[1]
-      const path = `/${pathName}`
-      setActiveItem(path)
-    }
-  }, [activeItem, setActiveItem])
-
-  const onChangeRoute = useCallback(
-    (path: string) => {
-      setActiveItem(path)
-      history.push(path)
-    },
-    [setActiveItem]
-  )
+const MenuBar = ({
+  width,
+  backgroundColor,
+  items,
+  logoUrl,
+  onClickLogo,
+  onClickMenuItem,
+  isMobileNavOpen,
+  onChangeMobileNav,
+  mobileNavStyles,
+}: MenuBarProps) => {
+  const { isTabletOrMobile, isMobile } = useMediaQueries()
 
   return (
-    <MenuBarContainer
-      isTabletOrMobile={isTabletOrMobile}
+    <Container
+      backgroundColour={backgroundColor}
+      isTabletOrPhone={isTabletOrMobile}
       width={width}
-      backgroundColor={backgroundColor}
     >
-      <StyledMenu fluid vertical={isTabletOrMobile ? false : true} tabular>
-        {items.map((item) => (
-          <Menu.Item
-            active={activeItem === item.path}
+      {logoUrl && !isMobile ? (
+        <LogoContainer isTabletOrPhone={isTabletOrMobile}>
+          <StyledImage
             onClick={() => {
-              onChangeRoute(item.path)
+              if (onClickLogo) {
+                onClickLogo()
+              }
             }}
-            {...item}
+            src={logoUrl}
           />
-        ))}
-      </StyledMenu>
-    </MenuBarContainer>
+        </LogoContainer>
+      ) : (
+        <MobileSideBar
+          items={items}
+          isOpen={isMobileNavOpen}
+          onClick={onClickMenuItem}
+          onChangeMobileNav={onChangeMobileNav}
+          styles={mobileNavStyles}
+        />
+      )}
+      {!isMobile ? (
+        <MenuBarContainer isTabletOrMobile={isTabletOrMobile} width={width}>
+          <StyledMenu fluid vertical={isTabletOrMobile ? false : true} tabular>
+            {items.map((item) => (
+              <MenuItem item={item} onClick={onClickMenuItem} />
+            ))}
+          </StyledMenu>
+        </MenuBarContainer>
+      ) : null}
+    </Container>
   )
 }
 

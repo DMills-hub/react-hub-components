@@ -1,7 +1,8 @@
-//#packageimports
+//#imports
 import { HSLColor } from 'react-color'
 import { MenuItemProps, SemanticCOLORS, SemanticICONS } from 'semantic-ui-react'
-////#endpackageimports
+import H_useMediaQueries from './hooks/useMediaQueries'
+//#endimports
 
 //#importcomponents
 import C_AutoForm from './components/AutoForm'
@@ -15,7 +16,7 @@ import C_MenuBar from './components/MenuBar'
 import C_PaginationBar from './components/PaginationBar'
 import C_PositionedContainer from './components/PositionedContainer'
 import C_Swatch from './components/Swatch'
-////#endimportcomponents
+//#endimportcomponents
 
 //#exportcomponents
 export const AutoForm = C_AutoForm
@@ -29,7 +30,7 @@ export const MenuBar = C_MenuBar
 export const PaginationBar = C_PaginationBar
 export const PositionedContainer = C_PositionedContainer
 export const Swatch = C_Swatch
-////#endexportcomponents
+//#endexportcomponents
 
 //#exportinterfaces
 export interface ButtonGroupButton {
@@ -55,6 +56,13 @@ export interface DragDropDefinition {
 export interface MenuBarItem extends MenuItemProps {
   path: string
   name: string
+  icon?: SemanticICONS
 }
 
-////#endexportinterfaces
+//#endexportinterfaces
+
+//#exporthooks
+
+export const useMediaQueries = H_useMediaQueries
+
+//#endexporthooks

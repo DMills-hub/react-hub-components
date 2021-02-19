@@ -17,10 +17,12 @@ const StyledDropdownItem = styled(Dropdown.Item)<{ colour?: string }>`
   }
 `
 
-const StyledDropdown = styled(Dropdown)`
+const StyledDropdown = styled(Dropdown)<{ isPlaceholder: boolean }>`
   .default.text {
-    color: black !important;
-    font-weight: bold !important;
+    ${(props) =>
+      props.isPlaceholder
+        ? ''
+        : 'color: black !important;font-weight: bold !important;'}
   }
 `
 
@@ -31,6 +33,7 @@ export default ({ placeholder, options, onChange, value }: DropdownProps) => {
       fluid
       selection
       text={options.find((option) => option.value === value)?.text as string}
+      isPlaceholder={!value}
     >
       <Dropdown.Menu>
         {options.map((option) => (

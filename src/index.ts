@@ -1,6 +1,11 @@
 //#imports
 import { HSLColor } from 'react-color'
-import { MenuItemProps, SemanticCOLORS, SemanticICONS } from 'semantic-ui-react'
+import {
+  DropdownItemProps,
+  MenuItemProps,
+  SemanticCOLORS,
+  SemanticICONS,
+} from 'semantic-ui-react'
 import H_useMediaQueries from './hooks/useMediaQueries'
 //#endimports
 
@@ -57,6 +62,10 @@ export interface MenuBarItem extends MenuItemProps {
   path: string
   name: string
   icon?: SemanticICONS
+}
+
+export interface DropdownItem extends DropdownItemProps {
+  colour?: string
 }
 
 //#endexportinterfaces

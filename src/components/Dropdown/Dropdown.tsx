@@ -3,7 +3,7 @@ import { Dropdown } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { DropdownItem } from '../..'
 
-interface DropdownProps {
+export interface DropdownProps {
   placeholder: string
   options: DropdownItem[]
   onChange: (value: any) => void

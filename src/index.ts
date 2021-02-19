@@ -21,6 +21,7 @@ import C_MenuBar from './components/MenuBar'
 import C_PaginationBar from './components/PaginationBar'
 import C_PositionedContainer from './components/PositionedContainer'
 import C_Swatch from './components/Swatch'
+import C_Dropdown from './components/Dropdown'
 //#endimportcomponents
 
 //#exportcomponents
@@ -35,6 +36,7 @@ export const MenuBar = C_MenuBar
 export const PaginationBar = C_PaginationBar
 export const PositionedContainer = C_PositionedContainer
 export const Swatch = C_Swatch
+export const Dropdown = C_Dropdown
 //#endexportcomponents
 
 //#exportinterfaces

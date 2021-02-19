@@ -1,5 +1,8 @@
 import React from 'react'
-import { Dropdown } from 'semantic-ui-react'
+import {
+  Dropdown,
+  DropdownProps as SemanticDropdownProps,
+} from 'semantic-ui-react'
 import styled from 'styled-components'
 import { DropdownItem } from '../..'
 
@@ -8,6 +11,7 @@ export interface DropdownProps {
   options: DropdownItem[]
   onChange: (value: any) => void
   value: any
+  dropdownProps?: SemanticDropdownProps
 }
 
 const StyledDropdownItem = styled(Dropdown.Item)<{ colour?: string }>`
@@ -26,7 +30,13 @@ const StyledDropdown = styled(Dropdown)<{ isPlaceholder: boolean }>`
   }
 `
 
-export default ({ placeholder, options, onChange, value }: DropdownProps) => {
+export default ({
+  placeholder,
+  options,
+  onChange,
+  value,
+  dropdownProps,
+}: DropdownProps) => {
   return (
     <StyledDropdown
       placeholder={placeholder}
@@ -34,6 +44,7 @@ export default ({ placeholder, options, onChange, value }: DropdownProps) => {
       selection
       text={options.find((option) => option.value === value)?.text as string}
       isPlaceholder={!value}
+      {...dropdownProps}
     >
       <Dropdown.Menu>
         {options.map((option) => (

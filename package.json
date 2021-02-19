@@ -4,6 +4,12 @@
   "private": false,
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "keywords": [
+    "react",
+    "components",
+    "react-hub",
+    "react-hub-generic-components"
+  ],
   "repository": {
     "url": "https://github.com/DMills-hub/react-hub-components.git"
   },
@@ -29,7 +35,7 @@
     "react-scripts": "4.0.2",
     "react-slick": "^0.28.0",
     "rollup": "^2.39.0",
-    "rollup-plugin-import-css": "^2.0.0",
+    "rollup-plugin-css-only": "^3.1.0",
     "semantic-ui-react": "^2.0.3",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.1",

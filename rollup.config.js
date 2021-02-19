@@ -1,5 +1,5 @@
 import typescript from 'rollup-plugin-typescript2'
-import css from 'rollup-plugin-import-css'
+import css from 'rollup-plugin-css-only'
 import pkg from './package.json'
 
 export default {
@@ -7,7 +7,7 @@ export default {
   output: [
     {
       file: pkg.main,
-      format: 'cjs',
+      format: 'esm',
       exports: 'named',
       sourcemap: true,
       strict: false,
@@ -18,7 +18,7 @@ export default {
       tsconfig: './tsconfig.json',
       clean: true,
     }),
-    css(),
+    css({ output: 'bundle.css' }),
   ],
   external: ['react', 'react-dom'],
 }

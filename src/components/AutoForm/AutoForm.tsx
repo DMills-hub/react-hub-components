@@ -103,25 +103,34 @@ const AutoForm = ({ onSave, fieldDefinitions }: AutoFormProps) => {
         return
       }
 
-      const formattedColours = colours.map((colour) => {
-        return { [colour.key]: colour.colour }
-      })
+      let coloursObject = {}
 
-      const coloursObject = formattedColours.reduce((prevValue, curValue) => ({
-        ...prevValue,
-        ...curValue,
-      }))
-
-      const formattedDropdownOptions = dropdownOption.map((dropdownOption) => {
-        return { [dropdownOption.key]: dropdownOption.value }
-      })
-
-      const dropdownObject = formattedDropdownOptions.reduce(
-        (prevValue, curValue) => ({
+      if (colours.length > 0) {
+        const formattedColours = colours.map((colour) => {
+          return { [colour.key]: colour.colour }
+        })
+        coloursObject = formattedColours.reduce((prevValue, curValue) => ({
           ...prevValue,
           ...curValue,
-        })
-      )
+        }))
+      }
+
+      let dropdownObject
+
+      if (dropdownOption.length > 0) {
+        const formattedDropdownOptions = dropdownOption.map(
+          (dropdownOption) => {
+            return { [dropdownOption.key]: dropdownOption.value }
+          }
+        )
+
+        dropdownObject = formattedDropdownOptions.reduce(
+          (prevValue, curValue) => ({
+            ...prevValue,
+            ...curValue,
+          })
+        )
+      }
 
       return onSave({ ...data, ...coloursObject, ...dropdownObject })
     },

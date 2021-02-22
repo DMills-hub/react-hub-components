@@ -18,11 +18,16 @@ const FormContainer = styled.div`
   align-items: center;
 `
 
-const InputContainer = styled.div`
+const InputContainer = styled.div<{ booleanField?: boolean }>`
   margin: 0 !important;
   margin-top: 5px !important;
   margin-bottom: 5px !important;
   width: 100%;
+
+  ${(props) =>
+    props.booleanField
+      ? 'display: flex; justify-content: space-between; align-items: center;'
+      : ''}
 
   label {
     font-weight: bold !important;
@@ -112,7 +117,7 @@ const AutoForm = ({ onSave, fieldDefinitions }: AutoFormProps) => {
               )
             case 'boolean':
               return (
-                <InputContainer>
+                <InputContainer booleanField={true}>
                   <label>{field.label}</label>
                   <input ref={register} name={field.key} type="checkbox" />
                 </InputContainer>

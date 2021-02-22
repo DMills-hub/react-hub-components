@@ -178,7 +178,10 @@ const AutoForm = ({ onSave, fieldDefinitions }: AutoFormProps) => {
                 <Dropdown
                   onChange={(value: any) => onChangeDropdown(value, field.key)}
                   placeholder={field.label}
-                  value={dropdownOption}
+                  value={
+                    dropdownOption.find((option) => option.key === field.key)
+                      ?.value
+                  }
                   options={field.options ?? []}
                 />
               )

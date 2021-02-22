@@ -110,6 +110,13 @@ const AutoForm = ({ onSave, fieldDefinitions }: AutoFormProps) => {
                   label={field.label}
                 />
               )
+            case 'boolean':
+              return (
+                <InputContainer>
+                  <label>{field.label}</label>
+                  <input ref={register} name={field.key} type="checkbox" />
+                </InputContainer>
+              )
             case 'file':
               return (
                 <InputContainer>

@@ -46,7 +46,12 @@ export interface ButtonGroupButton {
   color?: SemanticCOLORS
 }
 
-export type FieldDefinitionType = 'number' | 'text' | 'swatch' | 'file'
+export type FieldDefinitionType =
+  | 'number'
+  | 'text'
+  | 'swatch'
+  | 'file'
+  | 'boolean'
 
 export interface FieldDefinition {
   label: string

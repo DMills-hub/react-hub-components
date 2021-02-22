@@ -52,11 +52,13 @@ export type FieldDefinitionType =
   | 'swatch'
   | 'file'
   | 'boolean'
+  | 'dropdown'
 
 export interface FieldDefinition {
   label: string
   key: string
   type: FieldDefinitionType
+  options?: DropdownItem[]
 }
 
 export interface DragDropDefinition {

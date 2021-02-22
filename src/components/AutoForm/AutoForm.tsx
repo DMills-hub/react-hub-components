@@ -5,6 +5,7 @@ import { Form } from 'semantic-ui-react'
 import { useForm } from 'react-hook-form'
 import ColourPicker from './fields/ColourPicker'
 import { ColorResult, HSLColor } from 'react-color'
+import Dropdown from '../Dropdown'
 
 export interface AutoFormProps {
   fieldDefinitions: FieldDefinition[]
@@ -39,9 +40,17 @@ interface SelectedColour {
   colour: string
 }
 
+interface SelectedDropdownOption {
+  key: string
+  value: any
+}
+
 const AutoForm = ({ onSave, fieldDefinitions }: AutoFormProps) => {
   const { register, handleSubmit } = useForm()
   const [colours, setColours] = useState<SelectedColour[]>([])
+  const [dropdownOption, setDropdownOption] = useState<
+    SelectedDropdownOption[]
+  >([])
 
   const onChangeColour = useCallback(
     (key: string, color: ColorResult) => {
@@ -65,9 +74,31 @@ const AutoForm = ({ onSave, fieldDefinitions }: AutoFormProps) => {
     [setColours]
   )
 
+  const onChangeDropdown = useCallback(
+    (value: any, key: string) => {
+      setDropdownOption((p) => {
+        const dropdownOptionExists = p.find((val) => val.key === key)
+
+        if (dropdownOptionExists) {
+          return p.map((value) => {
+            if (value.key === key) {
+              return {
+                key,
+                value,
+              }
+            }
+            return value
+          })
+        }
+        return [...p, { key, value }]
+      })
+    },
+    [setDropdownOption]
+  )
+
   const onSubmit = useCallback(
     async (data: { [key: string]: any }) => {
-      if (colours.length === 0) {
+      if (colours.length === 0 && dropdownOption.length === 0) {
         await onSave(data)
         return
       }
@@ -81,9 +112,20 @@ const AutoForm = ({ onSave, fieldDefinitions }: AutoFormProps) => {
         ...curValue,
       }))
 
-      return onSave({ ...data, ...coloursObject })
+      const formattedDropdownOptions = dropdownOption.map((dropdownOption) => {
+        return { [dropdownOption.key]: dropdownOption.value }
+      })
+
+      const dropdownObject = formattedDropdownOptions.reduce(
+        (prevValue, curValue) => ({
+          ...prevValue,
+          ...curValue,
+        })
+      )
+
+      return onSave({ ...data, ...coloursObject, ...dropdownObject })
     },
-    [onSave, colours]
+    [onSave, colours, dropdownOption]
   )
 
   return (
@@ -121,6 +163,15 @@ const AutoForm = ({ onSave, fieldDefinitions }: AutoFormProps) => {
                   <label>{field.label}</label>
                   <input ref={register} name={field.key} type="checkbox" />
                 </InputContainer>
+              )
+            case 'dropdown':
+              return (
+                <Dropdown
+                  onChange={(value: any) => onChangeDropdown(value, field.key)}
+                  placeholder={field.label}
+                  value={dropdownOption}
+                  options={field.options ?? []}
+                />
               )
             case 'file':
               return (

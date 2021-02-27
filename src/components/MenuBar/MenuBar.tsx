@@ -87,7 +87,7 @@ const MenuBar = ({
             src={logoUrl}
           />
         </LogoContainer>
-      ) : (
+      ) : isMobile ? (
         <MobileSideBar
           items={items}
           isOpen={isMobileNavOpen}
@@ -95,7 +95,7 @@ const MenuBar = ({
           onChangeMobileNav={onChangeMobileNav}
           styles={mobileNavStyles}
         />
-      )}
+      ) : null}
       {!isMobile ? (
         <MenuBarContainer isTabletOrMobile={isTabletOrMobile} width={width}>
           <StyledMenu fluid vertical={isTabletOrMobile ? false : true} tabular>

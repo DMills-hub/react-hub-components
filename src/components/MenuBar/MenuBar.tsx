@@ -10,10 +10,17 @@ import { Styles } from 'react-burger-menu'
 const MenuBarContainer = styled.div<{
   width?: number
   isTabletOrMobile: boolean
+  spaceBetweenLogo?: number
 }>`
   width: 100%;
   height: 100%;
   ${(props) => (props.isTabletOrMobile ? 'display: flex;' : '')}
+  ${(props) =>
+    props.isTabletOrMobile && props.spaceBetweenLogo
+      ? `padding-left: ${props.spaceBetweenLogo}px`
+      : props.spaceBetweenLogo
+      ? `padding-top: ${props.spaceBetweenLogo}px`
+      : ''}
 `
 
 const StyledMenu = styled(Menu)`
@@ -24,11 +31,9 @@ const StyledImage = styled(Image)`
   cursor: pointer;
 `
 
-const LogoContainer = styled.div<{
-  isTabletOrPhone: boolean
-}>`
-  height: ${(props) => (props.isTabletOrPhone ? '100%' : '200px')};
-  width: ${(props) => (props.isTabletOrPhone ? '300px' : '100%')};
+const LogoContainer = styled.div`
+  height: auto;
+  width: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,6 +60,8 @@ export interface MenuBarProps {
   isMobileNavOpen: boolean
   onChangeMobileNav: (isOpen: boolean) => void
   mobileNavStyles: Partial<Styles>
+  logoWidth?: number
+  spaceBetweenLogo?: number
 }
 
 const MenuBar = ({
@@ -67,6 +74,8 @@ const MenuBar = ({
   isMobileNavOpen,
   onChangeMobileNav,
   mobileNavStyles,
+  logoWidth,
+  spaceBetweenLogo,
 }: MenuBarProps) => {
   const { isTabletOrMobile, isMobile } = useMediaQueries()
 
@@ -77,7 +86,7 @@ const MenuBar = ({
       width={width}
     >
       {logoUrl && !isMobile ? (
-        <LogoContainer isTabletOrPhone={isTabletOrMobile}>
+        <LogoContainer>
           <StyledImage
             onClick={() => {
               if (onClickLogo) {
@@ -85,6 +94,7 @@ const MenuBar = ({
               }
             }}
             src={logoUrl}
+            width={logoWidth}
           />
         </LogoContainer>
       ) : isMobile ? (
@@ -97,7 +107,11 @@ const MenuBar = ({
         />
       ) : null}
       {!isMobile ? (
-        <MenuBarContainer isTabletOrMobile={isTabletOrMobile} width={width}>
+        <MenuBarContainer
+          spaceBetweenLogo={spaceBetweenLogo}
+          isTabletOrMobile={isTabletOrMobile}
+          width={width}
+        >
           <StyledMenu fluid vertical={isTabletOrMobile ? false : true} tabular>
             {items.map((item) => (
               <MenuItem item={item} onClick={onClickMenuItem} />

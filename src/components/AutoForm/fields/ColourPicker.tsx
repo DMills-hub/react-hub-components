@@ -1,11 +1,12 @@
-import React from 'react'
-import { ColorResult, HSLColor, SketchPicker } from 'react-color'
+import React, { useCallback } from 'react'
+import { ColorResult, BlockPicker } from 'react-color'
 import styled from 'styled-components'
+import { Popup } from 'semantic-ui-react'
+import Swatch from '../../Swatch'
 
 export interface ColourPickerProps {
-  onChange: (color: ColorResult) => void
-  color?: HSLColor
-  label: string
+  onChange: (color: string) => void
+  color?: string
 }
 
 const ColourPickerContainer = styled.div`
@@ -13,16 +14,31 @@ const ColourPickerContainer = styled.div`
   margin-bottom: 10px;
 `
 
-const StyledLabel = styled.label`
-  font-weight: bold;
-  margin-bottom: 2px;
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
 `
 
-const ColourPicker = ({ onChange, color, label }: ColourPickerProps) => {
+const ColourPicker = ({ onChange, color }: ColourPickerProps) => {
+  const onChangeColour = useCallback(
+    (color: ColorResult) => {
+      onChange(color.hex)
+    },
+    [onChange]
+  )
+
   return (
     <ColourPickerContainer>
-      <StyledLabel>{label}</StyledLabel>
-      <SketchPicker onChange={onChange} color={color} />
+      <Popup
+        on="click"
+        trigger={
+          <Container>
+            <Swatch colour={color} />
+          </Container>
+        }
+      >
+        <BlockPicker onChangeComplete={onChangeColour} color={color} />
+      </Popup>
     </ColourPickerContainer>
   )
 }

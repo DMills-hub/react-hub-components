@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FieldDefinition } from '../../'
 import styled from 'styled-components'
 import { Form } from 'semantic-ui-react'
 import { useForm } from 'react-hook-form'
 import ColourPicker from './fields/ColourPicker'
-import { ColorResult, HSLColor } from 'react-color'
 import Dropdown from '../Dropdown'
 
 export interface AutoFormProps {
   fieldDefinitions: FieldDefinition[]
   onSave: (data: { [key: string]: any }) => Promise<void> | void
+  defaultValues?: { [key: string]: any }
 }
 
 const FormContainer = styled.div`
@@ -35,112 +35,41 @@ const InputContainer = styled.div<{ booleanField?: boolean }>`
   }
 `
 
-interface SelectedColour {
-  key: string
-  colour: string
-}
+const AutoForm = ({
+  onSave,
+  fieldDefinitions,
+  defaultValues,
+}: AutoFormProps) => {
+  const { setValue, register, getValues, watch } = useForm({
+    defaultValues,
+  })
 
-interface SelectedDropdownOption {
-  key: string
-  value: any
-}
+  const allFields = watch()
 
-const AutoForm = ({ onSave, fieldDefinitions }: AutoFormProps) => {
-  const { register, handleSubmit } = useForm()
-  const [colours, setColours] = useState<SelectedColour[]>([])
-  const [dropdownOption, setDropdownOption] = useState<
-    SelectedDropdownOption[]
-  >([])
+  useEffect(() => {
+    fieldDefinitions.map((field) =>
+      register({ name: field.key }, { required: true })
+    )
+  }, [fieldDefinitions, register])
 
-  const onChangeColour = useCallback(
-    (key: string, color: ColorResult) => {
-      setColours((prevState) => {
-        const colourKeyExists = prevState.find((val) => val.key === key)
+  const onSubmit = useCallback(async () => {
+    const data = getValues()
+    await onSave(data)
+  }, [onSave, getValues])
 
-        if (colourKeyExists) {
-          return prevState.map((value) => {
-            if (value.key === key) {
-              return {
-                key,
-                colour: color.hex,
-              }
-            }
-            return value
-          })
-        }
-        return [...prevState, { key, colour: color.hex }]
-      })
+  const onSetValue = useCallback(
+    (name: string, value: any) => {
+      watch()
+      setValue(name, value)
     },
-    [setColours]
-  )
-
-  const onChangeDropdown = useCallback(
-    (value: any, key: string) => {
-      setDropdownOption((p) => {
-        const dropdownOptionExists = p.find((val) => val.key === key)
-
-        if (dropdownOptionExists) {
-          return p.map((value) => {
-            if (value.key === key) {
-              return {
-                key,
-                value,
-              }
-            }
-            return value
-          })
-        }
-        return [...p, { key, value }]
-      })
-    },
-    [setDropdownOption]
-  )
-
-  const onSubmit = useCallback(
-    async (data: { [key: string]: any }) => {
-      if (colours.length === 0 && dropdownOption.length === 0) {
-        await onSave(data)
-        return
-      }
-
-      let coloursObject = {}
-
-      if (colours.length > 0) {
-        const formattedColours = colours.map((colour) => {
-          return { [colour.key]: colour.colour }
-        })
-        coloursObject = formattedColours.reduce((prevValue, curValue) => ({
-          ...prevValue,
-          ...curValue,
-        }))
-      }
-
-      let dropdownObject
-
-      if (dropdownOption.length > 0) {
-        const formattedDropdownOptions = dropdownOption.map(
-          (dropdownOption) => {
-            return { [dropdownOption.key]: dropdownOption.value }
-          }
-        )
-
-        dropdownObject = formattedDropdownOptions.reduce(
-          (prevValue, curValue) => ({
-            ...prevValue,
-            ...curValue,
-          })
-        )
-      }
-
-      return onSave({ ...data, ...coloursObject, ...dropdownObject })
-    },
-    [onSave, colours, dropdownOption]
+    [setValue, watch]
   )
 
   return (
     <FormContainer>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={onSubmit}>
         {fieldDefinitions.map((field) => {
+          const value = allFields[field.key]
           switch (field.type) {
             case 'text':
             case 'number':
@@ -148,48 +77,54 @@ const AutoForm = ({ onSave, fieldDefinitions }: AutoFormProps) => {
                 <InputContainer>
                   <label>{field.label}</label>
                   <input
-                    ref={register}
+                    onChange={(e) => onSetValue(field.key, e.target.value)}
                     name={field.key}
                     type={field.type}
                     step={field.type === 'number' ? '.01' : undefined}
+                    value={value}
                   />
                 </InputContainer>
               )
             case 'swatch':
               return (
                 <ColourPicker
-                  onChange={(color) => onChangeColour(field.key, color)}
-                  color={
-                    colours.find((colour) => colour.key === field.key)
-                      ?.colour as HSLColor | undefined
-                  }
-                  label={field.label}
+                  onChange={(color) => onSetValue(field.key, color)}
+                  color={value}
                 />
               )
             case 'boolean':
               return (
                 <InputContainer booleanField={true}>
                   <label>{field.label}</label>
-                  <input ref={register} name={field.key} type="checkbox" />
+                  <input
+                    onChange={(e) => onSetValue(field.key, e.target.checked)}
+                    name={field.key}
+                    type="checkbox"
+                    value={value}
+                  />
                 </InputContainer>
               )
             case 'dropdown':
               return (
-                <Dropdown
-                  onChange={(value: any) => onChangeDropdown(value, field.key)}
-                  placeholder={field.label}
-                  value={
-                    dropdownOption.find((option) => option.key === field.key)
-                      ?.value
-                  }
-                  options={field.options ?? []}
-                />
+                <InputContainer>
+                  <label>{field.label}</label>
+                  <Dropdown
+                    onChange={(value: any) => onSetValue(field.key, value)}
+                    placeholder={field.label}
+                    value={value}
+                    options={field.options ?? []}
+                  />
+                </InputContainer>
               )
             case 'file':
               return (
                 <InputContainer>
                   <label>{field.label}</label>
-                  <input ref={register} name={field.key} type={field.type} />
+                  <input
+                    onChange={(e) => onSetValue(field.key, e.target.files)}
+                    name={field.key}
+                    type={field.type}
+                  />
                 </InputContainer>
               )
           }

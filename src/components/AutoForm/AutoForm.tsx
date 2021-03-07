@@ -100,7 +100,7 @@ const AutoForm = ({
                     onChange={(e) => onSetValue(field.key, e.target.checked)}
                     name={field.key}
                     type="checkbox"
-                    value={value}
+                    checked={value}
                   />
                 </InputContainer>
               )

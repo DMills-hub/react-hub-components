@@ -22,6 +22,7 @@ import C_PaginationBar from './components/PaginationBar'
 import C_PositionedContainer from './components/PositionedContainer'
 import C_Swatch from './components/Swatch'
 import C_Dropdown from './components/Dropdown'
+import C_Confirm from './components/Confirm'
 //#endimportcomponents
 
 //#exportcomponents
@@ -37,6 +38,7 @@ export const PaginationBar = C_PaginationBar
 export const PositionedContainer = C_PositionedContainer
 export const Swatch = C_Swatch
 export const Dropdown = C_Dropdown
+export const Confirm = C_Confirm
 //#endexportcomponents
 
 //#exportinterfaces

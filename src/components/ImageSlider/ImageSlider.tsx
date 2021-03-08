@@ -7,6 +7,7 @@ import '../../css/index.css'
 
 export interface ImageSliderProps {
   urls: string[]
+  onChangeSlide?: (currentSlide: number) => void
 }
 
 const ImageSliderContainer = styled.div`
@@ -14,7 +15,7 @@ const ImageSliderContainer = styled.div`
   width: 100%;
 `
 
-const ImageSlider = ({ urls }: ImageSliderProps) => {
+const ImageSlider = ({ urls, onChangeSlide }: ImageSliderProps) => {
   const settings: Settings = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -24,7 +25,14 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
 
   return (
     <ImageSliderContainer>
-      <SlickSlider {...settings}>
+      <SlickSlider
+        afterChange={(currentSlide) => {
+          if (onChangeSlide) {
+            onChangeSlide(currentSlide)
+          }
+        }}
+        {...settings}
+      >
         {urls.map((url) => (
           <div className="slick-slide" key={url}>
             <img className="slick-slide-image" src={url} />

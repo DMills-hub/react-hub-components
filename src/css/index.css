@@ -12,6 +12,11 @@
   text-align: center;
   position: relative;
 }
+
+.slick-slide img {
+  margin: auto;
+}
+
 .slick-slide:focus {
   outline: none;
 }

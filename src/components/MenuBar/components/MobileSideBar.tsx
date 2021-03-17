@@ -37,13 +37,14 @@ const MobileSideBar = ({
   onChangeMobileNav,
   styles,
 }: MobileSideBarProps) => {
+  const filteredItems = items.filter((item) => !item.search)
   return (
     <Menu
       onStateChange={(state) => onChangeMobileNav(state.isOpen)}
       styles={styles}
       isOpen={isOpen}
     >
-      {items.map((item) => (
+      {filteredItems.map((item) => (
         <MenuItemContainer>
           <StyledMenuItem item={item} onClick={onClick} />
           {item.icon ? <Icon name={item.icon} /> : null}

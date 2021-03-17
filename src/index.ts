@@ -73,6 +73,8 @@ export interface MenuBarItem extends MenuItemProps {
   path: string
   name: string
   icon?: SemanticICONS
+  search?: boolean
+  onSearch?: (value: string) => void | Promise<void>
 }
 
 export interface DropdownItem extends DropdownItemProps {

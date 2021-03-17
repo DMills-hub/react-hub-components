@@ -30,3 +30,13 @@
 .slick-next:before {
   color: #777777;
 }
+
+.bm-overlay {
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.bm-menu-wrap {
+  position: absolute !important;
+  top: 0 !important;
+}

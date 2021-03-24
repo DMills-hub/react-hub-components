@@ -18,7 +18,8 @@ const PaginationBar = ({
   onChangePage,
   activePage,
 }: PaginationBarProps) => {
-  return totalPages !== 1 ? (
+  const isValid = totalPages !== 1 && totalPages !== 0
+  return isValid ? (
     <PaginationBarContainer>
       <Pagination
         totalPages={totalPages}

@@ -55,6 +55,7 @@ export type FieldDefinitionType =
   | 'file'
   | 'boolean'
   | 'dropdown'
+  | 'textarea'
 
 export interface FieldDefinition {
   label: string

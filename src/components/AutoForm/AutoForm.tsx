@@ -127,6 +127,17 @@ const AutoForm = ({
                   />
                 </InputContainer>
               )
+            case 'textarea':
+              return (
+                <InputContainer>
+                  <label>{field.label}</label>
+                  <textarea
+                    onChange={(e) => setValue(field.key, e.target.value)}
+                    name={field.key}
+                    value={value}
+                  />
+                </InputContainer>
+              )
           }
         })}
         <Form.Group>

@@ -23,6 +23,7 @@ import C_PositionedContainer from './components/PositionedContainer'
 import C_Swatch from './components/Swatch'
 import C_Dropdown from './components/Dropdown'
 import C_Confirm from './components/Confirm'
+import C_Carousel from './components/Carousel'
 //#endimportcomponents
 
 //#exportcomponents
@@ -39,6 +40,7 @@ export const PositionedContainer = C_PositionedContainer
 export const Swatch = C_Swatch
 export const Dropdown = C_Dropdown
 export const Confirm = C_Confirm
+export const Carousel = C_Carousel
 //#endexportcomponents
 
 //#exportinterfaces
@@ -62,6 +64,11 @@ export interface FieldDefinition {
   key: string
   type: FieldDefinitionType
   options?: DropdownItem[]
+}
+
+export interface CarouselItem {
+  label?: string
+  src: string
 }
 
 export interface DragDropDefinition {

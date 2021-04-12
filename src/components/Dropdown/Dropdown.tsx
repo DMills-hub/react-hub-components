@@ -27,7 +27,7 @@ export default ({
       fluid
       selection
       {...dropdownProps}
-      onChange={onChange}
+      onChange={(_, { value }) => onChange(value)}
       value={value}
     />
   )

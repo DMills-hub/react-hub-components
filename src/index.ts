@@ -63,7 +63,7 @@ export interface FieldDefinition {
   label: string
   key: string
   type: FieldDefinitionType
-  options?: DropdownItem[]
+  options?: DropdownItemProps[]
 }
 
 export interface CarouselItem {
@@ -83,10 +83,6 @@ export interface MenuBarItem extends MenuItemProps {
   icon?: SemanticICONS
   search?: boolean
   onSearch?: (value: string) => void | Promise<void>
-}
-
-export interface DropdownItem extends DropdownItemProps {
-  colour?: string
 }
 
 //#endexportinterfaces

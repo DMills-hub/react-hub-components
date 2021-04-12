@@ -113,6 +113,7 @@ const AutoForm = ({
                     placeholder={field.label}
                     value={value}
                     options={field.options ?? []}
+                    dropdownProps={{ clearable: true }}
                   />
                 </InputContainer>
               )
